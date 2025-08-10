@@ -1,0 +1,967 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MR_TOOLS - প্রিমিয়াম সোশ্যাল মিডিয়া সার্ভিস</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #8e44ad;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --dark: #2c3e50;
+            --light: #ecf0f1;
+            --success: #2ecc71;
+            --gold: #f1c40f;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Nirmala UI', 'Kalpurush', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, var(--dark), #1a1a2e);
+            color: var(--light);
+            min-height: 100vh;
+            padding: 20px;
+            background-attachment: fixed;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            padding: 30px 0;
+            position: relative;
+            margin-bottom: 30px;
+        }
+        
+        .logo-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .logo {
+            font-size: 3.5rem;
+            color: var(--gold);
+            text-shadow: 0 0 15px rgba(241, 196, 15, 0.7);
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 700;
+        }
+        
+        h1 {
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+            background: linear-gradient(45deg, var(--gold), #ff9a00);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        
+        .tagline {
+            font-size: 1.4rem;
+            opacity: 0.9;
+            max-width: 700px;
+            margin: 0 auto 20px;
+            color: var(--gold);
+        }
+        
+        .admin-badge {
+            background: rgba(231, 76, 60, 0.2);
+            border: 1px solid var(--accent);
+            border-radius: 50px;
+            padding: 8px 20px;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 15px;
+            font-size: 1.1rem;
+        }
+        
+        .admin-badge i {
+            color: var(--accent);
+        }
+        
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-top: 20px;
+        }
+        
+        @media (max-width: 900px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .services-section, .order-section {
+            background: rgba(25, 35, 60, 0.85);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+        }
+        
+        .section-title {
+            font-size: 1.8rem;
+            margin-bottom: 25px;
+            color: var(--gold);
+            text-align: center;
+            position: relative;
+            padding-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+        }
+        
+        .service-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        
+        .service-card {
+            background: rgba(40, 50, 80, 0.8);
+            border-radius: 12px;
+            padding: 20px;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.3s ease;
+        }
+        
+        .service-card:hover {
+            transform: translateY(-7px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            border-color: var(--gold);
+        }
+        
+        .service-card:hover::before {
+            transform: scaleX(1);
+        }
+        
+        .service-card.selected {
+            background: rgba(50, 60, 100, 0.9);
+            border: 2px solid var(--gold);
+            box-shadow: 0 0 20px rgba(241, 196, 15, 0.3);
+        }
+        
+        .service-card.selected::before {
+            transform: scaleX(1);
+        }
+        
+        .service-icon {
+            font-size: 2.8rem;
+            text-align: center;
+            margin-bottom: 15px;
+            color: var(--gold);
+            transition: transform 0.3s;
+        }
+        
+        .service-card:hover .service-icon {
+            transform: scale(1.1);
+        }
+        
+        .service-name {
+            font-size: 1.3rem;
+            text-align: center;
+            margin-bottom: 10px;
+            font-weight: 600;
+            color: var(--light);
+        }
+        
+        .service-price {
+            text-align: center;
+            font-size: 1.2rem;
+            color: var(--success);
+            font-weight: bold;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+            color: var(--light);
+            font-weight: 500;
+        }
+        
+        input, select, textarea {
+            width: 100%;
+            padding: 14px 18px;
+            border-radius: 10px;
+            border: none;
+            background: rgba(30, 40, 70, 0.8);
+            color: white;
+            font-size: 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            transition: all 0.3s;
+        }
+        
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--gold);
+            background: rgba(40, 50, 90, 0.9);
+            box-shadow: 0 0 10px rgba(241, 196, 15, 0.2);
+        }
+        
+        .quantity-control {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .quantity-btn {
+            background: var(--gold);
+            color: #000;
+            border: none;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            font-size: 1.3rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            transition: all 0.2s;
+        }
+        
+        .quantity-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 10px rgba(241, 196, 15, 0.5);
+        }
+        
+        .quantity-input {
+            width: 80px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+        
+        .order-btn {
+            width: 100%;
+            padding: 17px;
+            background: linear-gradient(45deg, var(--gold), #ff9a00);
+            border: none;
+            border-radius: 10px;
+            color: #000;
+            font-size: 1.3rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            box-shadow: 0 4px 15px rgba(241, 196, 15, 0.3);
+        }
+        
+        .order-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 7px 20px rgba(241, 196, 15, 0.5);
+            background: linear-gradient(45deg, #ff9a00, var(--gold));
+        }
+        
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 50px;
+        }
+        
+        .feature-card {
+            background: rgba(30, 40, 70, 0.8);
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.5s ease;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-7px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        .feature-card:hover::before {
+            transform: scaleX(1);
+        }
+        
+        .feature-icon {
+            font-size: 3rem;
+            color: var(--gold);
+            margin-bottom: 20px;
+            transition: transform 0.3s;
+        }
+        
+        .feature-card:hover .feature-icon {
+            transform: scale(1.1);
+        }
+        
+        .feature-title {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--gold);
+            font-weight: 600;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 40px 0 30px;
+            margin-top: 60px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .contact-info {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 25px;
+            flex-wrap: wrap;
+        }
+        
+        .contact-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            background: rgba(30, 40, 70, 0.6);
+            padding: 15px 25px;
+            border-radius: 12px;
+            min-width: 250px;
+            transition: all 0.3s;
+        }
+        
+        .contact-item:hover {
+            transform: translateY(-5px);
+            background: rgba(40, 50, 90, 0.8);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .contact-icon {
+            font-size: 2.2rem;
+            color: var(--gold);
+        }
+        
+        .contact-label {
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: var(--light);
+        }
+        
+        .contact-value {
+            font-size: 1.1rem;
+            color: var(--success);
+            font-weight: 500;
+            word-break: break-all;
+        }
+        
+        .copyright {
+            margin-top: 40px;
+            opacity: 0.8;
+            font-size: 1.1rem;
+        }
+        
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            margin: 40px 0;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .stat-card {
+            text-align: center;
+            padding: 25px 20px;
+            background: rgba(30, 40, 70, 0.8);
+            border-radius: 15px;
+            min-width: 200px;
+            margin: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-7px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            border-color: var(--gold);
+        }
+        
+        .stat-number {
+            font-size: 2.8rem;
+            font-weight: bold;
+            color: var(--gold);
+            margin-bottom: 5px;
+            text-shadow: 0 0 10px rgba(241, 196, 15, 0.3);
+        }
+        
+        .stat-label {
+            font-size: 1.2rem;
+            margin-top: 5px;
+            color: var(--light);
+        }
+        
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 25px;
+            background: var(--success);
+            color: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            transform: translateX(200%);
+            transition: transform 0.5s ease;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            max-width: 400px;
+        }
+        
+        .notification.show {
+            transform: translateX(0);
+        }
+        
+        .notification.error {
+            background: var(--accent);
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+        
+        .telegram-status {
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 8px;
+            text-align: center;
+            display: none;
+        }
+        
+        .telegram-success {
+            background: rgba(46, 204, 113, 0.2);
+            border: 1px solid var(--success);
+        }
+        
+        .telegram-error {
+            background: rgba(231, 76, 60, 0.2);
+            border: 1px solid var(--accent);
+        }
+        
+        .loading {
+            display: none;
+            text-align: center;
+            margin: 20px 0;
+        }
+        
+        .loading-spinner {
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top: 4px solid var(--gold);
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="notification" id="notification">
+        <i class="fas fa-check-circle"></i>
+        <span id="notification-text">অর্ডার সফলভাবে প্লেস করা হয়েছে!</span>
+    </div>
+    
+    <div class="container">
+        <header>
+            <div class="logo-container">
+                <div class="logo">MR_TOOLS</div>
+                <h1>প্রিমিয়াম সোশ্যাল মিডিয়া সার্ভিস</h1>
+            </div>
+            <p class="tagline">সোশ্যাল মিডিয়া মার্কেটিং এর জন্য প্রিমিয়াম কোয়ালিটি সার্ভিস। সবচেয়ে কম দামে সবচেয়ে ভালো সার্ভিস পান!</p>
+            
+            <div class="admin-badge">
+                <i class="fas fa-user-shield"></i>
+                <span>অ্যাডমিন: MR_MOMIN</span>
+            </div>
+        </header>
+        
+        <div class="stats">
+            <div class="stat-card">
+                <div class="stat-number">18,560+</div>
+                <div class="stat-label">সফল অর্ডার</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">99.7%</div>
+                <div class="stat-label">সন্তুষ্ট ক্লায়েন্ট</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">24/7</div>
+                <div class="stat-label">সাপোর্ট</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">12,500+</div>
+                <div class="stat-label">সক্রিয় ইউজার</div>
+            </div>
+        </div>
+        
+        <div class="main-content">
+            <div class="services-section">
+                <h2 class="section-title">আমাদের সেবাসমূহ</h2>
+                <div class="service-cards">
+                    <div class="service-card" onclick="selectService(this, 'facebook')">
+                        <div class="service-icon">
+                            <i class="fab fa-facebook"></i>
+                        </div>
+                        <div class="service-name">ফেসবুক লাইক</div>
+                        <div class="service-price">৳ ১০ / ১০০ লাইক</div>
+                    </div>
+                    
+                    <div class="service-card" onclick="selectService(this, 'youtube')">
+                        <div class="service-icon">
+                            <i class="fab fa-youtube"></i>
+                        </div>
+                        <div class="service-name">ইউটিউব ভিউ</div>
+                        <div class="service-price">৳ ২০ / ১০০০ ভিউ</div>
+                    </div>
+                    
+                    <div class="service-card" onclick="selectService(this, 'instagram')">
+                        <div class="service-icon">
+                            <i class="fab fa-instagram"></i>
+                        </div>
+                        <div class="service-name">ইনস্টাগ্রাম ফলোয়ার</div>
+                        <div class="service-price">৳ ৩০ / ১০০ ফলোয়ার</div>
+                    </div>
+                    
+                    <div class="service-card" onclick="selectService(this, 'twitter')">
+                        <div class="service-icon">
+                            <i class="fab fa-twitter"></i>
+                        </div>
+                        <div class="service-name">টুইটার ফলোয়ার</div>
+                        <div class="service-price">৳ ২৫ / ১০০ ফলোয়ার</div>
+                    </div>
+                    
+                    <div class="service-card" onclick="selectService(this, 'tiktok')">
+                        <div class="service-icon">
+                            <i class="fab fa-tiktok"></i>
+                        </div>
+                        <div class="service-name">টিকটক ভিউ</div>
+                        <div class="service-price">৳ ১৫ / ১০০০ ভিউ</div>
+                    </div>
+                    
+                    <div class="service-card" onclick="selectService(this, 'linkedin')">
+                        <div class="service-icon">
+                            <i class="fab fa-linkedin"></i>
+                        </div>
+                        <div class="service-name">লিংকডইন কানেকশন</div>
+                        <div class="service-price">৳ ৪০ / ১০০ কানেকশন</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="order-section">
+                <h2 class="section-title">সার্ভিস অর্ডার করুন</h2>
+                <div class="form-group">
+                    <label for="service">সার্ভিস নির্বাচন করুন</label>
+                    <select id="service" onchange="updateAmount()">
+                        <option value="">একটি সার্ভিস নির্বাচন করুন</option>
+                        <option value="facebook">ফেসবুক লাইক</option>
+                        <option value="youtube">ইউটিউব ভিউ</option>
+                        <option value="instagram">ইনস্টাগ্রাম ফলোয়ার</option>
+                        <option value="twitter">টুইটার ফলোয়ার</option>
+                        <option value="tiktok">টিকটক ভিউ</option>
+                        <option value="linkedin">লিংকডইন কানেকশন</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="link">লিংক (URL)</label>
+                    <input type="text" id="link" placeholder="যেখানে আপনি সার্ভিস চান (যেমন: ফেসবুক পেজ লিংক)">
+                </div>
+                
+                <div class="form-group">
+                    <label for="quantity">পরিমাণ</label>
+                    <div class="quantity-control">
+                        <button class="quantity-btn" onclick="adjustQuantity(-100)">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                        <input type="number" id="quantity" class="quantity-input" value="100" min="100" oninput="updateAmount()">
+                        <button class="quantity-btn" onclick="adjustQuantity(100)">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="instructions">বিশেষ নির্দেশনা (যদি থাকে)</label>
+                    <textarea id="instructions" rows="3" placeholder="আপনার বিশেষ নির্দেশনা এখানে লিখুন..."></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="amount">মোট মূল্য</label>
+                    <input type="text" id="amount" value="৳ ১০" readonly>
+                </div>
+                
+                <div class="loading" id="loading">
+                    <div class="loading-spinner"></div>
+                    <p>অর্ডার প্রসেস করা হচ্ছে...</p>
+                </div>
+                
+                <button class="order-btn pulse" onclick="placeOrder()">
+                    <i class="fas fa-paper-plane"></i> এখনই অর্ডার করুন
+                </button>
+                
+                <div id="telegram-status" class="telegram-status"></div>
+            </div>
+        </div>
+        
+        <div class="features">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-bolt"></i>
+                </div>
+                <div class="feature-title">সুপার ফাস্ট ডেলিভারি</div>
+                <p>অর্ডার দেবার সাথে সাথে কাজ শুরু। ৯৫% অর্ডার ৩০ মিনিট থেকে ২ ঘণ্টার মধ্যে কমপ্লিট করা হয়।</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <div class="feature-title">১০০% নিরাপদ</div>
+                <p>সব সার্ভিস সম্পূর্ণ সেফ এবং প্রাকৃতিকভাবে ডেলিভারি করা হয়। কোনো রিস্ক নেই, কোনো অ্যাকাউন্ট সাসপেনশন নেই!</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-headset"></i>
+                </div>
+                <div class="feature-title">২৪/৭ সাপোর্ট</div>
+                <p>আমাদের বিশেষজ্ঞ সাপোর্ট টিম সবসময় আপনার জন্য প্রস্তুত। যে কোনো সমস্যায় সাথে সাথে সমাধান!</p>
+            </div>
+        </div>
+        
+        <footer>
+            <h3 class="section-title">যোগাযোগ করুন</h3>
+            <div class="contact-info">
+                <div class="contact-item">
+                    <div class="contact-icon">
+                        <i class="fas fa-user-tie"></i>
+                    </div>
+                    <div class="contact-label">নাম</div>
+                    <div class="contact-value">MR_MOMIN</div>
+                </div>
+                
+                <div class="contact-item">
+                    <div class="contact-icon">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <div class="contact-label">ইমেইল</div>
+                    <div class="contact-value">mominmomin55454@gmail.com</div>
+                </div>
+                
+                <div class="contact-item">
+                    <div class="contact-icon">
+                        <i class="fas fa-phone-alt"></i>
+                    </div>
+                    <div class="contact-label">ফোন নম্বর</div>
+                    <div class="contact-value">01788678736</div>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                &copy; ২০২৩ MR_TOOLS - Premium Social Media Services. সকল অধিকার সংরক্ষিত।
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // Telegram bot details
+        const BOT_TOKEN = '8443808388:AAGY7ewfQvC_KXxz8BlMd0OLiB6rkITRTTs';
+        const CHAT_ID = '7245153415';
+        
+        // Selected service
+        let currentService = '';
+        
+        function selectService(card, service) {
+            // Remove selected class from all cards
+            document.querySelectorAll('.service-card').forEach(el => {
+                el.classList.remove('selected');
+            });
+            
+            // Add selected class to clicked card
+            card.classList.add('selected');
+            
+            // Update the service dropdown
+            document.getElementById('service').value = service;
+            
+            // Set current service
+            currentService = service;
+            
+            // Update the amount
+            updateAmount();
+        }
+        
+        function adjustQuantity(value) {
+            const quantityInput = document.getElementById('quantity');
+            let quantity = parseInt(quantityInput.value) || 100;
+            quantity += value;
+            
+            if (quantity < 100) quantity = 100;
+            if (quantity > 10000) quantity = 10000;
+            
+            quantityInput.value = quantity;
+            updateAmount();
+        }
+        
+        function updateAmount() {
+            const quantity = parseInt(document.getElementById('quantity').value) || 100;
+            const serviceSelect = document.getElementById('service');
+            const service = serviceSelect.value;
+            
+            let pricePer100 = 10; // Default price
+            
+            // Set different prices for different services
+            switch(service) {
+                case 'facebook':
+                    pricePer100 = 10;
+                    break;
+                case 'youtube':
+                    pricePer100 = 20;
+                    break;
+                case 'instagram':
+                    pricePer100 = 30;
+                    break;
+                case 'twitter':
+                    pricePer100 = 25;
+                    break;
+                case 'tiktok':
+                    pricePer100 = 15;
+                    break;
+                case 'linkedin':
+                    pricePer100 = 40;
+                    break;
+                default:
+                    pricePer100 = 10;
+            }
+            
+            // Calculate total amount
+            const total = (quantity / 100) * pricePer100;
+            document.getElementById('amount').value = `৳ ${total}`;
+        }
+        
+        function showNotification(message, isError = false) {
+            const notification = document.getElementById('notification');
+            const notificationText = document.getElementById('notification-text');
+            
+            notificationText.textContent = message;
+            
+            if (isError) {
+                notification.classList.add('error');
+                notification.querySelector('i').className = 'fas fa-exclamation-circle';
+            } else {
+                notification.classList.remove('error');
+                notification.querySelector('i').className = 'fas fa-check-circle';
+            }
+            
+            notification.classList.add('show');
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 5000);
+        }
+        
+        function updateTelegramStatus(message, isSuccess = true) {
+            const statusDiv = document.getElementById('telegram-status');
+            statusDiv.style.display = 'block';
+            statusDiv.textContent = message;
+            statusDiv.className = isSuccess ? 'telegram-status telegram-success' : 'telegram-status telegram-error';
+            
+            setTimeout(() => {
+                statusDiv.style.display = 'none';
+            }, 7000);
+        }
+        
+        function escapeMarkdown(text) {
+            // Escape special characters for Telegram markdown
+            return text.replace(/[_*[\]()~`>#+\-=|{}.!]/g, '\\$&');
+        }
+        
+        function sendToTelegram(service, link, quantity, instructions, amount) {
+            const serviceNames = {
+                'facebook': 'ফেসবুক লাইক',
+                'youtube': 'ইউটিউব ভিউ',
+                'instagram': 'ইনস্টাগ্রাম ফলোয়ার',
+                'twitter': 'টুইটার ফলোয়ার',
+                'tiktok': 'টিকটক ভিউ',
+                'linkedin': 'লিংকডইন কানেকশন'
+            };
+            
+            const serviceName = serviceNames[service] || service;
+            
+            // Escape all markdown characters
+            const escapedServiceName = escapeMarkdown(serviceName);
+            const escapedLink = escapeMarkdown(link || 'N/A');
+            const escapedInstructions = escapeMarkdown(instructions || 'কোনো নির্দেশনা নেই');
+            const escapedAmount = escapeMarkdown(amount);
+            
+            const message = `📦 *নতুন অর্ডার!*\n\n` +
+                            `🔹 *সার্ভিস:* ${escapedServiceName}\n` +
+                            `🔹 *লিংক:* ${escapedLink}\n` +
+                            `🔹 *পরিমাণ:* ${quantity}\n` +
+                            `🔹 *নির্দেশনা:* ${escapedInstructions}\n` +
+                            `🔹 *মোট মূল্য:* ${escapedAmount}\n\n` +
+                            `💼 *অ্যাডমিন:* MR_MOMIN\n` +
+                            `📧 *ইমেইল:* mominmomin55454@gmail.com\n` +
+                            `📱 *ফোন:* 01788678736`;
+
+            // Using the Telegram Bot API with a GET request
+            const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${CHAT_ID}&text=${encodeURIComponent(message)}&parse_mode=MarkdownV2`;
+            
+            // Show sending status
+            updateTelegramStatus('টেলিগ্রামে নোটিফিকেশন পাঠানো হচ্ছে...', true);
+            
+            // Show loading spinner
+            document.getElementById('loading').style.display = 'block';
+            
+            // Using fetch with GET method
+            fetch(url)
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('loading').style.display = 'none';
+                if (data.ok) {
+                    updateTelegramStatus('✅ টেলিগ্রামে নোটিফিকেশন সফলভাবে পাঠানো হয়েছে!', true);
+                    console.log('Telegram message sent successfully:', data);
+                } else {
+                    updateTelegramStatus('❌ টেলিগ্রাম নোটিফিকেশন ব্যর্থ: ' + (data.description || 'অজানা ত্রুটি'), false);
+                    console.error('Telegram API error:', data);
+                }
+            })
+            .catch(error => {
+                document.getElementById('loading').style.display = 'none';
+                updateTelegramStatus('❌ টেলিগ্রাম নোটিফিকেশন ব্যর্থ: নেটওয়ার্ক সমস্যা', false);
+                console.error('Error sending to Telegram:', error);
+            });
+        }
+        
+        function placeOrder() {
+            const service = document.getElementById('service').value;
+            const link = document.getElementById('link').value;
+            const quantity = document.getElementById('quantity').value;
+            const instructions = document.getElementById('instructions').value;
+            const amount = document.getElementById('amount').value;
+            
+            if (!service) {
+                showNotification('দয়া করে একটি সার্ভিস নির্বাচন করুন!', true);
+                return;
+            }
+            
+            if (!link) {
+                showNotification('দয়া করে একটি লিংক প্রদান করুন!', true);
+                return;
+            }
+            
+            // Show order success notification
+            showNotification('অর্ডার সফলভাবে প্লেস করা হয়েছে!');
+            
+            // Send to Telegram
+            sendToTelegram(service, link, quantity, instructions, amount);
+            
+            // Reset form
+            document.querySelectorAll('.service-card').forEach(el => {
+                el.classList.remove('selected');
+            });
+            document.getElementById('service').selectedIndex = 0;
+            document.getElementById('link').value = '';
+            document.getElementById('quantity').value = '100';
+            document.getElementById('instructions').value = '';
+            document.getElementById('amount').value = '৳ ১০';
+            currentService = '';
+        }
+        
+        // Initialize amount
+        document.getElementById('service').addEventListener('change', updateAmount);
+        document.getElementById('quantity').addEventListener('input', updateAmount);
+        
+        // Initialize service selection from dropdown
+        document.getElementById('service').addEventListener('change', function() {
+            currentService = this.value;
+            document.querySelectorAll('.service-card').forEach(el => {
+                el.classList.remove('selected');
+            });
+        });
+    </script>
+</body>
+                      </html>
